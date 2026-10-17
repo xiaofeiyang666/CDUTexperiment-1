@@ -37,10 +37,10 @@ F:\Anoconda\envs\env\python.exe generate_report_evidence.py
 
 ## GitHub 地址
 
-本地工程目前尚未绑定远程 GitHub 仓库。创建仓库后，将以下占位地址替换成真实地址：
+GitHub 仓库和预训练模型 Release 已发布：
 
-- 源码仓库：`https://github.com/<用户名>/CDUTexperiment-1`
-- 预训练模型：`https://github.com/<用户名>/CDUTexperiment-1/releases/download/v1.0/best_model.pth`
+- 源码仓库：`https://github.com/xiaofeiyang666/CDUTexperiment-1`
+- 预训练模型：`https://github.com/xiaofeiyang666/CDUTexperiment-1/releases/download/v1.0/best_model.pth`
 
 建议将 `ResNet_model/best_model.pth` 上传到 GitHub Release v1.0 的附件中，不建议将大模型文件直接放入普通 Git 提交。
 
