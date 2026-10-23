@@ -21,7 +21,7 @@ from torchvision.models import ResNet18_Weights, resnet18
 from data_utils import stratified_train_val_indices
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DATA_ROOT = PROJECT_ROOT / "dataset" / "cats_dogs" / "dc_2000"
 DEFAULT_OUTPUT_DIR = PROJECT_ROOT / "报告" / "实验二证据"
 SEED = 42
