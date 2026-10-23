@@ -1,6 +1,6 @@
-# CDUTexperiment-1 数字识别实验
+# CDUTexperiment-1 深度学习实验
 
-基于 MNIST 数据集和自定义 ResNet18 的手写数字识别实验。
+本仓库包含数字识别和猫狗分类两个 PyTorch 实验的源码。
 
 ## 实验结果
 
@@ -31,18 +31,28 @@ F:\Anoconda\envs\env\python.exe generate_report_evidence.py
 
 训练脚本会生成 `training_log.txt`、`training_log.csv`、`training_curves.png` 和 `misclassified_samples.png`。测试证据脚本会生成 `test_metrics.txt` 和 `test_prediction_samples.png`。
 
+## 实验二 猫狗分类
+
+实验二使用 2000 张训练图片和 1000 张独立测试图片。训练脚本会从训练集分出 1600 张训练图片和 400 张验证图片，微调预训练 ResNet18 的 `layer4` 和分类层。
+
+```powershell
+cd F:\深度学习实验\CDUTexperiment-1
+F:\Anoconda\envs\env\python.exe _code\experiment2_catdog\train.py --epochs 8 --batch-size 32 --verify-images
+F:\Anoconda\envs\env\python.exe _code\experiment2_catdog\evaluate.py --batch-size 64
+```
+
+实验二脚本会生成训练日志、训练曲线、混淆矩阵、逐样本预测表和预测示例图。数据集需要放在 `dataset/cats_dogs/dc_2000`，该目录不上传到仓库。
+
+预训练 ResNet18 权重由 torchvision 自动下载：
+`https://download.pytorch.org/models/resnet18-f37072fd.pth`
+
 ## 模型架构
 
 输入图像先 Resize 到 224×224，然后经过初始卷积模块、四个残差阶段、自适应平均池化和全连接层，输出 10 个数字类别。
 
 ## GitHub 地址
 
-本地工程目前尚未绑定远程 GitHub 仓库。创建仓库后，将以下占位地址替换成真实地址：
-
-- 源码仓库：`https://github.com/<用户名>/CDUTexperiment-1`
-- 预训练模型：`https://github.com/<用户名>/CDUTexperiment-1/releases/download/v1.0/best_model.pth`
-
-建议将 `ResNet_model/best_model.pth` 上传到 GitHub Release v1.0 的附件中，不建议将大模型文件直接放入普通 Git 提交。
+源码仓库：`https://github.com/xiaofeiyang666/CDUTexperiment-1`
 
 ## 文件说明
 
@@ -52,5 +62,6 @@ F:\Anoconda\envs\env\python.exe generate_report_evidence.py
 | `model_train.py` | 数据加载、训练、验证和曲线生成 |
 | `model_test.py` | 测试集评估和逐样本预测 |
 | `generate_report_evidence.py` | 生成报告指标和预测样本图 |
-| `ResNet_model/best_model.pth` | 最佳模型权重 |
-| `数字识别实验报告.docx` | 实验报告 |
+| `_code/experiment2_catdog/data_utils.py` | 数据划分和分类指标 |
+| `_code/experiment2_catdog/train.py` | 猫狗分类训练和模型保存 |
+| `_code/experiment2_catdog/evaluate.py` | 猫狗分类测试和证据图生成 |

@@ -112,7 +112,7 @@ styles["Heading 2"].font.bold = True
 
 title = doc.add_paragraph(style="Title")
 title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-title.add_run("数字识别实验报告")
+title.add_run("实验一 数字识别实验报告")
 sub = doc.add_paragraph()
 sub.alignment = WD_ALIGN_PARAGRAPH.CENTER
 sub.paragraph_format.space_after = Pt(16)
@@ -126,14 +126,14 @@ set_table_borders(info)
 for row in info.rows:
     for cell in row.cells:
         cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
-labels = [("姓名", "待填写"), ("学号", "待填写"), ("班级", "待填写"), ("实验日期", "2026年10月17日")]
+labels = [("姓名", "夏富源"), ("学号", "202421020120"), ("班级", "2024210201"), ("实验日期", "2026年10月17日")]
 for i, (label, value) in enumerate(labels):
     set_cell_text(info.cell(0, i), label, bold=True, color="FFFFFF")
     set_cell_shading(info.cell(0, i), "44546A")
     set_cell_text(info.cell(1, i), value)
 
 add_heading(doc, "一 实验目的", 1)
-add_body(doc, "本实验使用 MNIST 手写数字数据集，搭建并训练一个自定义 ResNet18 卷积神经网络，完成 0 至 9 共十类数字图像的识别。通过记录训练损失、验证损失、验证准确率和测试准确率，分析模型的收敛过程及泛化能力。")
+add_body(doc, "本次实验使用 MNIST 手写数字数据集，训练一个自定义的 ResNet18 网络，对 0 到 9 的数字图片进行分类。训练时记录每轮的损失和验证准确率，训练结束后再用测试集检查识别效果。")
 
 add_heading(doc, "二 实验环境与数据", 1)
 env = doc.add_table(rows=1, cols=2)
@@ -168,7 +168,7 @@ for i, step in enumerate(steps, 1):
     p.add_run(step)
 
 add_heading(doc, "四 模型架构", 1)
-add_body(doc, "模型输入为 1 通道的 224×224 灰度图像。网络首先通过 7×7 卷积、ReLU、BatchNorm 和最大池化提取初始特征，随后依次经过四个残差阶段，通道数从 64 增加到 128、256 和 512，并通过 stride=2 逐步降低空间分辨率。最后使用自适应平均池化、Flatten 和全连接层输出 10 个类别的 logits。")
+add_body(doc, "输入图片是单通道的 224×224 灰度图。网络前面使用 7×7 卷积、ReLU、BatchNorm 和最大池化，后面接四组残差块，通道数依次为 64、128、256 和 512。最后经过自适应平均池化和全连接层，输出 10 个数字类别。")
 arch = doc.add_table(rows=1, cols=3)
 set_table_borders(arch)
 for i, h in enumerate(["模块", "主要结构", "输出特征"]):
@@ -187,7 +187,7 @@ for vals in [
         set_cell_text(cells[i], value)
 
 add_heading(doc, "五 训练过程与结果", 1)
-add_body(doc, "训练过程中模型整体收敛稳定。训练损失从 0.1307 降至 0.0263，验证损失从 0.0485 降至 0.0317；验证准确率从 98.52% 提升至 99.10%。第 5 个 epoch 的验证准确率最高，因此保存该阶段的模型参数作为最佳模型。")
+add_body(doc, "从训练记录看，训练损失由 0.1307 降到 0.0263，验证损失由 0.0485 降到 0.0317。验证准确率从 98.52% 提高到 99.10%，第 5 轮的结果最好，所以保存了第 5 轮的模型参数。")
 metrics = doc.add_table(rows=1, cols=5)
 set_table_borders(metrics)
 for i, h in enumerate(["Epoch", "Train loss", "Val loss", "Train acc", "Val acc"]):
@@ -209,30 +209,30 @@ doc.add_picture(str(ROOT / "training_curves.png"), width=Cm(16.2))
 add_caption(doc, "图 1 训练损失、验证损失及训练验证准确率变化曲线")
 
 add_heading(doc, "六 测试结果与预测分析", 1)
-add_body(doc, "最佳模型在 10000 张测试图像上进行评估，正确识别 9914 张，错误识别 86 张，最终测试准确率为 99.14%。测试准确率与验证准确率接近，说明模型具有较好的泛化能力。")
-add_body(doc, "错误样本主要出现在笔画相似或书写形态不典型的数字之间，例如 3 与 5、0 与 6、7 与 2。可视化样本同时包含正确和错误预测，便于检查模型的识别效果。")
+add_body(doc, "用保存的模型测试 10000 张图片，其中 9914 张预测正确，86 张预测错误，测试准确率为 99.14%。这个结果和验证集准确率比较接近。")
+add_body(doc, "错误样本中比较常见的是 3 和 5、0 和 6、7 和 2 之间的混淆。这些图片的写法比较接近，单看笔画时也容易判断错。报告中的样本图列出了正确和错误的预测结果。")
 doc.add_picture(str(ROOT / "test_prediction_samples.png"), width=Cm(16.2))
 add_caption(doc, "图 2 测试集预测示例；绿色为正确预测，红色为错误预测")
 
 add_heading(doc, "七 源码与预训练模型", 1)
-add_body(doc, "当前工程尚未绑定 GitHub 远程仓库，因此以下地址是上传后需要替换的链接。上传源码后，建议将 best_model.pth 放在 GitHub Release 附件中，避免直接提交大文件到普通源码目录。")
+add_body(doc, "实验源码已经上传到 GitHub，训练好的 best_model.pth 放在 v1.0 Release 附件中。")
 links = doc.add_table(rows=1, cols=2)
 set_table_borders(links)
 for i, h in enumerate(["资源", "地址"]):
     set_cell_text(links.cell(0, i), h, bold=True, color="FFFFFF")
     set_cell_shading(links.cell(0, i), "44546A")
 for vals in [
-    ("GitHub 源码", "https://github.com/<用户名>/CDUTexperiment-1"),
-    ("预训练模型下载", "https://github.com/<用户名>/CDUTexperiment-1/releases/download/v1.0/best_model.pth"),
+    ("GitHub 源码", "https://github.com/xiaofeiyang666/CDUTexperiment-1"),
+    ("预训练模型下载", "https://github.com/xiaofeiyang666/CDUTexperiment-1/releases/download/v1.0/best_model.pth"),
     ("本地模型文件", "ResNet_model/best_model.pth"),
 ]:
     cells = links.add_row().cells
     for i, value in enumerate(vals):
         set_cell_text(cells[i], value)
-add_body(doc, "上传建议：创建 GitHub 仓库后上传 model.py、model_train.py、model_test.py、generate_report_evidence.py、README.md 以及报告所需的结果文件；创建 Release v1.0 并将 best_model.pth 作为附件上传，然后把上表的两个占位 URL 替换为实际地址。")
+add_body(doc, "源码仓库中保留了模型定义、训练、测试和结果生成脚本。预训练模型可以从 v1.0 Release 下载。")
 
 add_heading(doc, "八 实验总结", 1)
-add_body(doc, "本实验完成了从数据预处理、残差网络构建、模型训练到测试评估的完整流程。结果表明，自定义 ResNet18 能够在 MNIST 数据集上取得 99.14% 的测试准确率。训练曲线显示损失持续下降、准确率持续上升，模型已基本收敛。后续可以通过数据增强、学习率调度、减少输入尺寸或使用更轻量的网络降低训练时间，并进一步分析不同类别之间的混淆情况。")
+add_body(doc, "这次实验按照数据预处理、搭建网络、训练和测试的顺序完成。最终测试准确率为 99.14%，训练曲线中的损失逐步下降，准确率逐步提高。后面还可以尝试数据增强或缩小输入图片尺寸，以减少训练时间。")
 
 doc.save(OUT)
 print(OUT)

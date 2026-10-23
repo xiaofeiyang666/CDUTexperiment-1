@@ -7,3 +7,25 @@ train_output.txt
 evidence_warnings.txt
 dataset/MNIST/raw/
 dataset/MNIST/processed/
+
+# Local experiment data, reports, checkpoints, and generated evidence
+dataset/
+报告/
+ResNet_model/
+*.docx
+*.zip
+*.png
+*.csv
+*.pth
+*.log
+test_metrics.txt
+test_output.txt
+training_log.txt
+train_output.txt
+
+# Local helper and temporary files
+snake.py
+_code/update_github_files.py
+_code/cleanup_github_repo.py
+_code/append_experiment2_report.py
+~$*
